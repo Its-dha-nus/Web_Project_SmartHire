@@ -65,7 +65,7 @@ exports.getJobById = async (req, res) => {
         const [jobs] = await pool.execute(
             `SELECT jobs.*, employer_profiles.company_name 
              FROM jobs 
-             JOIN employer_profiles ON jobs.employer_id = employer_profiles.user_id
+             LEFT JOIN employer_profiles ON jobs.employer_id = employer_profiles.user_id
              WHERE jobs.job_id = ?`,
             [jobId]
         );
@@ -112,7 +112,7 @@ exports.getEmployerDashboard = async (req, res) => {
             `SELECT a.application_id, a.job_id, a.status, 
                     s.full_name, s.skills, s.contact_number, s.linkedin_url, s.github_url 
              FROM applications a
-             JOIN seeker_profiles s ON a.seeker_id = s.profile_id
+             LEFT JOIN seeker_profiles s ON a.seeker_id = s.profile_id
              JOIN jobs j ON a.job_id = j.job_id
              WHERE j.employer_id = ?
              ORDER BY a.application_id DESC`,
