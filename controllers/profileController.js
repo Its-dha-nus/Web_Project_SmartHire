@@ -53,8 +53,9 @@ exports.createEmployerProfile = async (req, res) => {
 // --- GET MY PROFILE (DYNAMIC) ---
 exports.getMyProfile = async (req, res) => {
     try {
-        const { userId, role } = req.user;
-        
+        const user = req.user;
+        const myId = user.id || user.userId || user.user_id;
+        const role = user.role;
         // Dynamically choose the table based on the JWT role
         const query = role === 'employer' 
             ? 'SELECT * FROM employer_profiles WHERE user_id = ?'
