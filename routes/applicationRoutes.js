@@ -7,6 +7,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.post('/apply/:jobId', authMiddleware, applicationController.applyForJob);
 
 // GET /api/applications/job/:jobId (Protected: Employer only)
-router.get('/job/:jobId', authMiddleware, applicationController.getJobApplications);
+router.get('/job/:jobId', authMiddleware, applicationController.getJobapplications);
 
 module.exports = router;

@@ -11,7 +11,7 @@ exports.applyForJob = async (req, res) => {
 
         // 1. Find the seeker's profile ID
         const [seekers] = await pool.execute(
-            'SELECT profile_id FROM Seeker_Profiles WHERE user_id = ?', 
+            'SELECT profile_id FROM seeker_profiles WHERE user_id = ?', 
             [req.user.userId]
         );
 
@@ -22,7 +22,7 @@ exports.applyForJob = async (req, res) => {
 
         // 2. Check if they already applied to prevent spam
         const [existingApps] = await pool.execute(
-            'SELECT * FROM Applications WHERE job_id = ? AND seeker_id = ?',
+            'SELECT * FROM applications WHERE job_id = ? AND seeker_id = ?',
             [jobId, seekerId]
         );
 
@@ -32,7 +32,7 @@ exports.applyForJob = async (req, res) => {
 
         // 3. Submit the application
         await pool.execute(
-            'INSERT INTO Applications (job_id, seeker_id) VALUES (?, ?)',
+            'INSERT INTO applications (job_id, seeker_id) VALUES (?, ?)',
             [jobId, seekerId]
         );
 
@@ -45,7 +45,7 @@ exports.applyForJob = async (req, res) => {
 };
 
 // --- EMPLOYER: GET APPLICATIONS FOR THEIR JOBS ---
-exports.getJobApplications = async (req, res) => {
+exports.getJobapplications = async (req, res) => {
     try {
         if (req.user.role !== 'employer') {
             return res.status(403).json({ message: 'Only employers can view applications' });
@@ -55,13 +55,13 @@ exports.getJobApplications = async (req, res) => {
 
         // Fetch applications and JOIN the seeker's profile so the employer sees their details
         const [applications] = await pool.execute(`
-            SELECT Applications.application_id, Applications.status, Applications.applied_at, 
-                   Seeker_Profiles.full_name, Seeker_Profiles.skills, Seeker_Profiles.education, 
-                   Seeker_Profiles.experience, Seeker_Profiles.contact_number, 
-                   Seeker_Profiles.github_url, Seeker_Profiles.linkedin_url
-            FROM Applications
-            JOIN Seeker_Profiles ON Applications.seeker_id = Seeker_Profiles.profile_id
-            WHERE Applications.job_id = ?
+            SELECT applications.application_id, applications.status, applications.applied_at, 
+                   seeker_profiles.full_name, seeker_profiles.skills, seeker_profiles.education, 
+                   seeker_profiles.experience, seeker_profiles.contact_number, 
+                   seeker_profiles.github_url, seeker_profiles.linkedin_url
+            FROM applications
+            JOIN seeker_profiles ON applications.seeker_id = seeker_profiles.profile_id
+            WHERE applications.job_id = ?
         `, [jobId]);
 
         res.status(200).json(applications);

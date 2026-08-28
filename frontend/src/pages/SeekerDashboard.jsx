@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const SeekerDashboard = () => {
-  const [applications, setApplications] = useState([]);
+  const [applications, setapplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const SeekerDashboard = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setApplications(data);
+          setapplications(data);
         } else {
           console.error("Error fetching dashboard:", data.message);
         }
@@ -57,7 +57,7 @@ const SeekerDashboard = () => {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-white mb-2">My Applications</h2>
+        <h2 className="text-3xl font-bold text-white mb-2">My applications</h2>
         <p className="text-gray-400">Track the status of jobs you've applied for.</p>
       </div>
 

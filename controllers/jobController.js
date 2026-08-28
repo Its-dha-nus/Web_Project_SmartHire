@@ -12,7 +12,7 @@ exports.createJob = async (req, res) => {
 
         // 2. Look for their employer profile
         const [employers] = await pool.execute(
-            'SELECT employer_id FROM Employer_Profiles WHERE user_id = ?', 
+            'SELECT employer_id FROM employer_profiles WHERE user_id = ?', 
             [req.user.userId]
         );
 
@@ -25,7 +25,7 @@ exports.createJob = async (req, res) => {
 
         // 4. Insert the job
         const [result] = await pool.execute(
-            `INSERT INTO Jobs (employer_id, title, description, job_type, required_skills, location, salary) 
+            `INSERT INTO jobs (employer_id, title, description, job_type, required_skills, location, salary) 
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [employerId, title, description, job_type, required_skills, location, salary]
         );
@@ -40,11 +40,11 @@ exports.createJob = async (req, res) => {
 
 exports.getAllJobs = async (req, res) => {
     try {
-        // We will fetch the jobs and JOIN the Employer_Profiles table so we can show the company name!
+        // We will fetch the jobs and JOIN the employer_profiles table so we can show the company name!
         const [jobs] = await pool.execute(`
-            SELECT Jobs.*, Employer_Profiles.company_name, Employer_Profiles.whatsapp_number 
-            FROM Jobs 
-            JOIN Employer_Profiles ON Jobs.employer_id = Employer_Profiles.employer_id 
+            SELECT Jobs.*, employer_profiles.company_name, employer_profiles.whatsapp_number 
+            FROM jobs 
+            JOIN employer_profiles ON Jobs.employer_id = employer_profiles.employer_id 
             WHERE Jobs.Status = 'open'
             ORDER BY Jobs.created_at DESC
         `);
@@ -63,9 +63,9 @@ exports.getJobById = async (req, res) => {
         
         // Grab the job AND the company name it belongs to
         const [jobs] = await pool.execute(
-            `SELECT Jobs.*, Employer_Profiles.company_name 
-             FROM Jobs 
-             JOIN Employer_Profiles ON Jobs.employer_id = Employer_Profiles.employer_id 
+            `SELECT Jobs.*, employer_profiles.company_name 
+             FROM jobs 
+             JOIN employer_profiles ON Jobs.employer_id = employer_profiles.employer_id 
              WHERE Jobs.job_id = ?`,
             [jobId]
         );
@@ -91,7 +91,7 @@ exports.getEmployerDashboard = async (req, res) => {
         }
 
         const [employers] = await pool.execute(
-            'SELECT employer_id FROM Employer_Profiles WHERE user_id = ?',
+            'SELECT employer_id FROM employer_profiles WHERE user_id = ?',
             [userId]
         );
 
@@ -103,7 +103,7 @@ exports.getEmployerDashboard = async (req, res) => {
 
         // 2. Fetch all jobs posted by this specific employer
         const [jobs] = await pool.execute(
-            'SELECT * FROM Jobs WHERE employer_id = ? ORDER BY created_at DESC',
+            'SELECT * FROM jobs WHERE employer_id = ? ORDER BY created_at DESC',
             [employerId]
         );
 
@@ -111,8 +111,8 @@ exports.getEmployerDashboard = async (req, res) => {
         const [applications] = await pool.execute(
             `SELECT a.application_id, a.job_id, a.status, 
                     s.full_name, s.skills, s.contact_number, s.linkedin_url, s.github_url 
-             FROM Applications a
-             JOIN Seeker_Profiles s ON a.seeker_id = s.profile_id
+             FROM applications a
+             JOIN seeker_profiles s ON a.seeker_id = s.profile_id
              JOIN Jobs j ON a.job_id = j.job_id
              WHERE j.employer_id = ?
              ORDER BY a.application_id DESC`,
@@ -145,7 +145,7 @@ exports.getSeekerDashboard = async (req, res) => {
         }
 
         const [seekers] = await pool.execute(
-            'SELECT profile_id FROM Seeker_Profiles WHERE user_id = ?',
+            'SELECT profile_id FROM seeker_profiles WHERE user_id = ?',
             [userId]
         );
 
@@ -160,9 +160,9 @@ exports.getSeekerDashboard = async (req, res) => {
             `SELECT a.application_id, a.status,
                     j.job_id, j.title, j.location, j.job_type,
                     e.company_name
-             FROM Applications a
+             FROM applications a
              JOIN Jobs j ON a.job_id = j.job_id
-             JOIN Employer_Profiles e ON j.employer_id = e.employer_id
+             JOIN employer_profiles e ON j.employer_id = e.employer_id
              WHERE a.seeker_id = ?
              ORDER BY a.application_id DESC`,
             [seekerId]
@@ -187,7 +187,7 @@ exports.updateApplicationStatus = async (req, res) => {
         const { status } = req.body; // Will be 'accepted' or 'rejected'
 
         await pool.execute(
-            'UPDATE Applications SET status = ? WHERE application_id = ?',
+            'UPDATE applications SET status = ? WHERE application_id = ?',
             [status, appId]
         );
 
@@ -211,7 +211,7 @@ exports.deleteJob = async (req, res) => {
 
         // 2. Delete the job ONLY if it belongs to this specific employer
         const [result] = await pool.execute(
-            'DELETE FROM Jobs WHERE job_id = ? AND employer_id = ?',
+            'DELETE FROM jobs WHERE job_id = ? AND employer_id = ?',
             [jobId, employerId]
         );
 
@@ -240,7 +240,7 @@ exports.updateJob = async (req, res) => {
         const { title, description, requirements, salary, location, job_type } = req.body;
 
         const [result] = await pool.execute(
-            `UPDATE Jobs 
+            `UPDATE jobs 
              SET title = ?, description = ?, requirements = ?, salary = ?, location = ?, job_type = ? 
              WHERE job_id = ? AND employer_id = ?`,
             [title, description, requirements, salary, location, job_type, jobId, employerId]
@@ -272,7 +272,7 @@ exports.updateJob = async (req, res) => {
 
         // Execute the update in MySQL
         const [result] = await pool.execute(
-            `UPDATE Jobs 
+            `UPDATE jobs 
              SET title = ?, description = ?, requirements = ?, salary = ?, location = ?, job_type = ? 
              WHERE job_id = ? AND employer_id = ?`,
             [title, description, requirements, salary, location, job_type, jobId, employerId]
@@ -302,17 +302,17 @@ exports.toggleSaveJob = async (req, res) => {
 
         // Check if the job is already saved
         const [existing] = await pool.execute(
-            'SELECT * FROM Saved_Jobs WHERE seeker_id = ? AND job_id = ?',
+            'SELECT * FROM saved_jobs WHERE seeker_id = ? AND job_id = ?',
             [seekerId, jobId]
         );
 
         if (existing.length > 0) {
             // It exists, so we UNSAVE it
-            await pool.execute('DELETE FROM Saved_Jobs WHERE seeker_id = ? AND job_id = ?', [seekerId, jobId]);
+            await pool.execute('DELETE FROM saved_jobs WHERE seeker_id = ? AND job_id = ?', [seekerId, jobId]);
             return res.status(200).json({ message: 'Job removed from saved list.', isSaved: false });
         } else {
             // It doesn't exist, so we SAVE it
-            await pool.execute('INSERT INTO Saved_Jobs (seeker_id, job_id) VALUES (?, ?)', [seekerId, jobId]);
+            await pool.execute('INSERT INTO saved_jobs (seeker_id, job_id) VALUES (?, ?)', [seekerId, jobId]);
             return res.status(200).json({ message: 'Job saved successfully!', isSaved: true });
         }
     } catch (error) {
@@ -330,10 +330,10 @@ exports.getSavedJobs = async (req, res) => {
 
         const seekerId = req.user.userId;
 
-        // Join Saved_Jobs with the Jobs table to get the full job details
+        // Join saved_jobs with the Jobs table to get the full job details
         const [savedJobs] = await pool.execute(
             `SELECT j.*, sj.created_at as saved_at 
-             FROM Saved_Jobs sj 
+             FROM saved_jobs sj 
              JOIN Jobs j ON sj.job_id = j.job_id 
              WHERE sj.seeker_id = ? 
              ORDER BY sj.created_at DESC`,

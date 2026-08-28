@@ -11,7 +11,7 @@ exports.createSeekerProfile = async (req, res) => {
             return res.status(403).json({ message: 'Only job seekers can create this profile' });
         }
         const [result] = await pool.execute(
-            `INSERT INTO Seeker_Profiles 
+            `INSERT INTO seeker_profiles 
             (user_id, full_name, skills, education, experience, bio, contact_number, github_url, linkedin_url, is_student) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [userId, full_name, skills, education, experience, bio, contact_number, github_url, linkedin_url, is_student || false]
@@ -37,7 +37,7 @@ exports.createEmployerProfile = async (req, res) => {
         }
 
         const [result] = await pool.execute(
-            `INSERT INTO Employer_Profiles (user_id, company_name, whatsapp_number, description) 
+            `INSERT INTO employer_profiles (user_id, company_name, whatsapp_number, description) 
             VALUES (?, ?, ?, ?)`,
             [userId, company_name, whatsapp_number, description]
         );
@@ -57,8 +57,8 @@ exports.getMyProfile = async (req, res) => {
         
         // Dynamically choose the table based on the JWT role
         const query = role === 'employer' 
-            ? 'SELECT * FROM Employer_Profiles WHERE user_id = ?'
-            : 'SELECT * FROM Seeker_Profiles WHERE user_id = ?';
+            ? 'SELECT * FROM employer_profiles WHERE user_id = ?'
+            : 'SELECT * FROM seeker_profiles WHERE user_id = ?';
 
         const [profiles] = await pool.execute(query, [userId]);
 
@@ -99,7 +99,7 @@ exports.updateMyProfile = async (req, res) => {
         // Add userId to the end of the values array for the WHERE clause
         values.push(userId);
 
-        const table = role === 'employer' ? 'Employer_Profiles' : 'Seeker_Profiles';
+        const table = role === 'employer' ? 'employer_profiles' : 'seeker_profiles';
         
         // 3. Execute the update
         await pool.execute(
@@ -126,10 +126,10 @@ exports.getApplicantByApplicationId = async (req, res) => {
 
         const appId = req.params.applicationId;
         
-        // Join Applications and Seeker_Profiles to get the full profile
+        // Join applications and seeker_profiles to get the full profile
         const [profiles] = await pool.execute(
-            `SELECT s.* FROM Seeker_Profiles s
-             JOIN Applications a ON s.profile_id = a.seeker_id
+            `SELECT s.* FROM seeker_profiles s
+             JOIN applications a ON s.profile_id = a.seeker_id
              WHERE a.application_id = ?`,
             [appId]
         );
@@ -155,7 +155,7 @@ exports.getMyProfile = async (req, res) => {
         }
 
         const [profiles] = await pool.execute(
-            'SELECT * FROM Seeker_Profiles WHERE user_id = ?', 
+            'SELECT * FROM seeker_profiles WHERE user_id = ?', 
             [req.user.userId]
         );
 
