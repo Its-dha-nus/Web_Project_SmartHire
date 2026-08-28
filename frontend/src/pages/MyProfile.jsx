@@ -22,7 +22,7 @@ const MyProfile = () => {
       const payload = JSON.parse(atob(token.split('.')[1]));
       setRole(payload.role);
 
-      const response = await fetch("http://localhost:5000/api/profiles/me", {
+      const response = await fetch("https://smarthire-api-0djt.onrender.com/api/profiles/me", {
         headers: { "Authorization": `Bearer ${token}` }
       });
 
@@ -52,7 +52,7 @@ const MyProfile = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5000/api/profiles/me", {
+      const response = await fetch("https://smarthire-api-0djt.onrender.com/api/profiles/me", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

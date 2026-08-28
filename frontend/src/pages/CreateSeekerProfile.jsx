@@ -27,7 +27,7 @@ const CreateSeekerProfile = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5000/api/profiles/seeker", {
+      const response = await fetch("https://smarthire-api-0djt.onrender.com/api/profiles/seeker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -20,7 +20,7 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/jobs/${id}`);
+        const response = await fetch(`https://smarthire-api-0djt.onrender.com/api/jobs/${id}`);
         const data = await response.json();
         
         if (response.ok) {
@@ -43,7 +43,7 @@ const JobDetails = () => {
 
       try {
         // We reuse your existing dashboard route to get their history
-        const response = await fetch("http://localhost:5000/api/jobs/seeker/dashboard", {
+        const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs/seeker/dashboard", {
           headers: { "Authorization": `Bearer ${token}` }
         });
         
@@ -72,7 +72,7 @@ const JobDetails = () => {
 
     try {
       // The ${id} comes from the useParams() at the top of your file
-      const response = await fetch(`http://localhost:5000/api/jobs/${id}/apply`, {
+      const response = await fetch(`https://smarthire-api-0djt.onrender.com/api/jobs/${id}/apply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

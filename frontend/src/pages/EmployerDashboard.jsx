@@ -16,7 +16,7 @@ const EmployerDashboard = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/api/jobs/employer/dashboard", {
+        const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs/employer/dashboard", {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -42,7 +42,7 @@ const EmployerDashboard = () => {
   const handleStatusChange = async (appId, newStatus) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`http://localhost:5000/api/jobs/applications/${appId}/status`, {
+      const response = await fetch(`https://smarthire-api-0djt.onrender.com/api/jobs/applications/${appId}/status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const EmployerDashboard = () => {
     const token = localStorage.getItem("token");
     
     try {
-      const response = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+      const response = await fetch(`https://smarthire-api-0djt.onrender.com/api/jobs/${jobId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`

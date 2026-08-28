@@ -15,7 +15,7 @@ const Explore = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/jobs");
+        const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs");
         const data = await response.json();
         if (response.ok) setJobs(data);
       } catch (error) {
@@ -36,7 +36,7 @@ const Explore = () => {
           setIsSeeker(true);
 
           // 1. Fetch Saved Jobs
-          const savedRes = await fetch("http://localhost:5000/api/jobs/saved", {
+          const savedRes = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs/saved", {
             headers: { "Authorization": `Bearer ${token}` }
           });
           if (savedRes.ok) {
@@ -45,7 +45,7 @@ const Explore = () => {
           }
 
           // 2. Fetch Profile to check Student Status
-          const profileRes = await fetch("http://localhost:5000/api/profiles/me", {
+          const profileRes = await fetch("https://smarthire-api-0djt.onrender.com/api/profiles/me", {
             headers: { "Authorization": `Bearer ${token}` }
           });
           if (profileRes.ok) {
@@ -91,7 +91,7 @@ const Explore = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`http://localhost:5000/api/jobs/${jobId}/save`, {
+      const response = await fetch(`https://smarthire-api-0djt.onrender.com/api/jobs/${jobId}/save`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` }
       });

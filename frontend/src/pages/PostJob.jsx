@@ -30,7 +30,7 @@ const PostJob = () => {
     
     try {
       // 2. Send the data AND the token to the backend
-      const response = await fetch("http://localhost:5000/api/jobs", {
+      const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

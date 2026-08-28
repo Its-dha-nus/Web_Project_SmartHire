@@ -15,7 +15,7 @@ const SeekerDashboard = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/api/jobs/seeker/dashboard", {
+        const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs/seeker/dashboard", {
           headers: {
             "Authorization": `Bearer ${token}`
           }
