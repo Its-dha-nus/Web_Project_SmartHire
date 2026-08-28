@@ -42,11 +42,11 @@ exports.getAllJobs = async (req, res) => {
     try {
         // We will fetch the jobs and JOIN the employer_profiles table so we can show the company name!
         const [jobs] = await pool.execute(`
-            SELECT Jobs.*, employer_profiles.company_name, employer_profiles.whatsapp_number 
+            SELECT jobs.*, employer_profiles.company_name, employer_profiles.whatsapp_number 
             FROM jobs 
-            JOIN employer_profiles ON Jobs.employer_id = employer_profiles.employer_id 
-            WHERE Jobs.Status = 'open'
-            ORDER BY Jobs.created_at DESC
+            JOIN employer_profiles ON jobs.employer_id = employer_profiles.employer_id 
+            WHERE jobs.Status = 'open'
+            ORDER BY jobs.created_at DESC
         `);
 
         res.status(200).json(jobs);
@@ -63,10 +63,10 @@ exports.getJobById = async (req, res) => {
         
         // Grab the job AND the company name it belongs to
         const [jobs] = await pool.execute(
-            `SELECT Jobs.*, employer_profiles.company_name 
+            `SELECT jobs.*, employer_profiles.company_name 
              FROM jobs 
-             JOIN employer_profiles ON Jobs.employer_id = employer_profiles.employer_id 
-             WHERE Jobs.job_id = ?`,
+             JOIN employer_profiles ON jobs.employer_id = employer_profiles.employer_id 
+             WHERE jobs.job_id = ?`,
             [jobId]
         );
 
@@ -113,7 +113,7 @@ exports.getEmployerDashboard = async (req, res) => {
                     s.full_name, s.skills, s.contact_number, s.linkedin_url, s.github_url 
              FROM applications a
              JOIN seeker_profiles s ON a.seeker_id = s.profile_id
-             JOIN Jobs j ON a.job_id = j.job_id
+             JOIN jobs j ON a.job_id = j.job_id
              WHERE j.employer_id = ?
              ORDER BY a.application_id DESC`,
             [employerId]
@@ -161,7 +161,7 @@ exports.getSeekerDashboard = async (req, res) => {
                     j.job_id, j.title, j.location, j.job_type,
                     e.company_name
              FROM applications a
-             JOIN Jobs j ON a.job_id = j.job_id
+             JOIN jobs j ON a.job_id = j.job_id
              JOIN employer_profiles e ON j.employer_id = e.employer_id
              WHERE a.seeker_id = ?
              ORDER BY a.application_id DESC`,
@@ -334,7 +334,7 @@ exports.getSavedJobs = async (req, res) => {
         const [savedJobs] = await pool.execute(
             `SELECT j.*, sj.created_at as saved_at 
              FROM saved_jobs sj 
-             JOIN Jobs j ON sj.job_id = j.job_id 
+             JOIN jobs j ON sj.job_id = j.job_id 
              WHERE sj.seeker_id = ? 
              ORDER BY sj.created_at DESC`,
             [seekerId]
@@ -342,7 +342,7 @@ exports.getSavedJobs = async (req, res) => {
 
         res.status(200).json(savedJobs);
     } catch (error) {
-        console.error("Fetch Saved Jobs Error:", error);
+        console.error("Fetch Saved jobs Error:", error);
         res.status(500).json({ message: 'Server error fetching saved jobs.' });
     }
 };
