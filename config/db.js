@@ -10,7 +10,7 @@ const pool = mysql.createPool({
     port: process.env.DB_PORT,
     ssl: {
         // This reads the Aiven security certificate you just downloaded
-        ca: fs.readFileSync(path.join(__dirname, 'config/ca.pem')) 
+        ca: fs.readFileSync(path.join(__dirname, '../ca.pem')) 
     }
 });
 
