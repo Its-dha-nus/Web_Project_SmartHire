@@ -68,10 +68,10 @@ exports.login = async (req, res) => {
     let hasProfile = false;
     
     if (user.role === 'employer') {
-        const [empProfile] = await db.query("SELECT * FROM Employer_Profiles WHERE user_id = ?", [user.user_id]);
+        const [empProfile] = await db.query("SELECT * FROM employer_profiles WHERE user_id = ?", [user.user_id]);
         hasProfile = empProfile.length > 0;
     } else if (user.role === 'seeker') {
-        const [seekProfile] = await db.query("SELECT * FROM Seeker_Profiles WHERE user_id = ?", [user.user_id]);
+        const [seekProfile] = await db.query("SELECT * FROM seeker_profiles WHERE user_id = ?", [user.user_id]);
         hasProfile = seekProfile.length > 0;
     }
 
