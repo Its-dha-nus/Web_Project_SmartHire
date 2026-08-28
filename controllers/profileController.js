@@ -145,3 +145,27 @@ exports.getApplicantByApplicationId = async (req, res) => {
         res.status(500).json({ message: 'Server Error fetching applicant profile' });
     }
 };
+
+// --- GET LOGGED-IN SEEKER'S PROFILE ---
+exports.getMyProfile = async (req, res) => {
+    try {
+        // Ensure only seekers can fetch this specific profile
+        if (req.user.role !== 'seeker') {
+            return res.status(403).json({ message: 'Access denied.' });
+        }
+
+        const [profiles] = await pool.execute(
+            'SELECT * FROM Seeker_Profiles WHERE user_id = ?', 
+            [req.user.userId]
+        );
+
+        if (profiles.length === 0) {
+            return res.status(404).json({ message: 'Profile not found.' });
+        }
+
+        res.status(200).json(profiles[0]);
+    } catch (error) {
+        console.error("Get Profile Error:", error);
+        res.status(500).json({ message: 'Server error fetching profile.' });
+    }
+};

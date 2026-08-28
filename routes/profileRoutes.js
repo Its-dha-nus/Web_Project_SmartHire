@@ -14,5 +14,7 @@ router.get('/me', authMiddleware, profileController.getMyProfile);
 router.put('/me', authMiddleware, profileController.updateMyProfile);
 // GET /api/profiles/applicant/:applicationId
 router.get('/applicant/:applicationId', authMiddleware, profileController.getApplicantByApplicationId);
+// GET /api/profiles/me
+router.get('/me', authMiddleware, profileController.getMyProfile);
 
 module.exports = router;
