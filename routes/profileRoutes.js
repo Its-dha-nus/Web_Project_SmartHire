@@ -9,7 +9,6 @@ router.post('/seeker', authMiddleware, profileController.createSeekerProfile);
 
 // POST /api/profiles/employer
 router.post('/employer', authMiddleware, profileController.createEmployerProfile);
-router.get('/me', authMiddleware, profileController.getMyProfile);
 // PUT /api/profiles/me
 router.put('/me', authMiddleware, profileController.updateMyProfile);
 // GET /api/profiles/applicant/:applicationId
