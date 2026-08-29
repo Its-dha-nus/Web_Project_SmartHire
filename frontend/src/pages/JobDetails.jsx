@@ -41,7 +41,7 @@ const JobDetails = () => {
     const checkApplicationStatus = async () => {
       const token = localStorage.getItem("token");
       if (!token) return; // If they aren't logged in, they haven't applied!
-
+      if (userRole === 'employer') return;
       try {
         // We reuse your existing dashboard route to get their history
         const response = await fetch("https://smarthire-api-0djt.onrender.com/api/jobs/seeker/dashboard", {
