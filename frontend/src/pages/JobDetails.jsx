@@ -111,37 +111,44 @@ const JobDetails = () => {
       </Link>
 
       <div className="bg-gray-800/40 backdrop-blur-md border border-gray-700 rounded-3xl p-8 shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-6 sm:gap-0">
+          {/* LEFT SIDE: Title & Company */}
           <div>
             <h1 className="text-3xl font-bold text-white mb-2">{job.title}</h1>
             <p className="text-xl text-blue-400 font-semibold">{job.company_name}</p>
           </div>
-           {userRole !== 'employer' && (
-            <button 
+          
+          {/* RIGHT SIDE: Grouped Buttons */}
+          <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+            {userRole !== 'employer' && (
+              <button 
                 onClick={handleApply}
                 disabled={hasApplied}
-                className={`w-full py-3 rounded-xl font-bold transition-all mt-6 ${
+                // FIX: Removed w-full & mt-6. Added px-8 so it sizes perfectly.
+                className={`py-3 px-8 rounded-xl font-bold transition-all ${
                   hasApplied 
                     ? "bg-gray-700/50 text-gray-400 border border-gray-600 cursor-not-allowed" 
                     : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]"
-                    }`}
-                    >
-                  {hasApplied ? "Already Applied" : "Apply Now"}
-            </button>
+                }`}
+              >
+                {hasApplied ? "Already Applied" : "Apply Now"}
+              </button>
             )}
-            {/* NEW: WHATSAPP BUTTON (ONLY FOR PART-TIME JOBS) */}
+
+            {/* WHATSAPP BUTTON */}
             {job.job_type && job.job_type.toLowerCase().includes('part-time') && job.whatsapp_number && (
               <a 
-                // We strip out spaces/dashes from the number and pre-fill a professional message!
                 href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(`Hi ${job.company_name} team! I saw your ${job.title} opening on SmartHire and I'm very interested.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full block text-center py-3 rounded-xl font-bold transition-all mt-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white shadow-[0_0_15px_rgba(37,211,102,0.4)]"
+                // FIX: Removed w-full & mt-4. Added px-8 and flex centering.
+                className="py-3 px-8 rounded-xl font-bold transition-all bg-[#25D366] hover:bg-[#1ebd5a] text-white shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center justify-center"
               >
                 Contact via WhatsApp
               </a>
             )}
           </div>
+        </div>
 
         <div className="flex flex-wrap gap-4 mb-8">
           <span className="bg-gray-900/50 text-gray-300 py-1.5 px-4 rounded-lg border border-gray-600 text-sm">{job.location}</span>
