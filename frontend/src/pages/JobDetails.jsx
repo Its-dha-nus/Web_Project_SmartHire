@@ -6,6 +6,7 @@ const JobDetails = () => {
   const { id } = useParams(); // Grabs the job ID from the URL!
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasApplied, setHasApplied] = useState(false);
 
   let userRole = null;
   const token = localStorage.getItem("token");

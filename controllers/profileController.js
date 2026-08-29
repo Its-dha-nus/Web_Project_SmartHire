@@ -55,13 +55,13 @@ exports.getMyProfile = async (req, res) => {
     try {
         const user = req.user;
         const myId = user.id || user.userId || user.user_id;
-        const role = user.role;
+        const role = user.role?.toLowerCase();
         // Dynamically choose the table based on the JWT role
         const query = role === 'employer' 
             ? 'SELECT * FROM employer_profiles WHERE user_id = ?'
             : 'SELECT * FROM seeker_profiles WHERE user_id = ?';
 
-        const [profiles] = await pool.execute(query, [userId]);
+        const [profiles] = await pool.execute(query, [myId]);
 
         if (profiles.length === 0) {
             return res.status(404).json({ message: 'Profile not found.' });
