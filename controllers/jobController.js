@@ -90,18 +90,17 @@ exports.getEmployerDashboard = async (req, res) => {
             return res.status(403).json({ message: 'Access denied. Employers only.' });
         }
 
-        // FIX: Fetch jobs using the User ID
         const [jobs] = await pool.execute(
             'SELECT * FROM jobs WHERE employer_id = ? ORDER BY created_at DESC',
             [userId]
         );
 
-        // FIX: Fetch applications using the User ID
+        // FIX: Reverted the JOIN back to s.profile_id so applicant details actually load!
         const [applications] = await pool.execute(
             `SELECT a.application_id, a.job_id, a.status, 
                     s.full_name, s.skills, s.contact_number, s.linkedin_url, s.github_url 
              FROM applications a
-             LEFT JOIN seeker_profiles s ON a.seeker_id = s.user_id
+             LEFT JOIN seeker_profiles s ON a.seeker_id = s.profile_id
              JOIN jobs j ON a.job_id = j.job_id
              WHERE j.employer_id = ?
              ORDER BY a.application_id DESC`,
@@ -132,7 +131,19 @@ exports.getSeekerDashboard = async (req, res) => {
             return res.status(403).json({ message: 'Access denied. Seekers only.' });
         }
 
-        // FIX: Joined correctly on e.user_id
+        // 1. Grab the Seeker's Profile ID first!
+        const [seekers] = await pool.execute(
+            'SELECT profile_id FROM seeker_profiles WHERE user_id = ?',
+            [userId]
+        );
+
+        if (seekers.length === 0) {
+            return res.status(404).json({ message: 'Seeker profile not found.' });
+        }
+
+        const profileId = seekers[0].profile_id;
+
+        // 2. Search applications using the Profile ID, not User ID
         const [applications] = await pool.execute(
             `SELECT a.application_id, a.status,
                     j.job_id, j.title, j.location, j.job_type,
@@ -142,7 +153,7 @@ exports.getSeekerDashboard = async (req, res) => {
              LEFT JOIN employer_profiles e ON j.employer_id = e.user_id
              WHERE a.seeker_id = ?
              ORDER BY a.application_id DESC`,
-            [userId]
+            [profileId]
         );
 
         res.status(200).json(applications);
