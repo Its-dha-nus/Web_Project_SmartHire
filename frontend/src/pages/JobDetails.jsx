@@ -129,6 +129,18 @@ const JobDetails = () => {
                   {hasApplied ? "Already Applied" : "Apply Now"}
             </button>
             )}
+            {/* NEW: WHATSAPP BUTTON (ONLY FOR PART-TIME JOBS) */}
+            {job.job_type && job.job_type.toLowerCase().includes('part-time') && job.whatsapp_number && (
+              <a 
+                // We strip out spaces/dashes from the number and pre-fill a professional message!
+                href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(`Hi ${job.company_name} team! I saw your ${job.title} opening on SmartHire and I'm very interested.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full block text-center py-3 rounded-xl font-bold transition-all mt-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white shadow-[0_0_15px_rgba(37,211,102,0.4)]"
+              >
+                Contact via WhatsApp
+              </a>
+            )}
           </div>
 
         <div className="flex flex-wrap gap-4 mb-8">

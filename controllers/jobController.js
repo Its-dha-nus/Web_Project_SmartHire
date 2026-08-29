@@ -63,7 +63,7 @@ exports.getJobById = async (req, res) => {
         const jobId = req.params.id;
         
         const [jobs] = await pool.execute(
-            `SELECT jobs.*, employer_profiles.company_name 
+            `SELECT jobs.*, employer_profiles.company_name, employer_profiles.whatsapp_number
              FROM jobs 
              LEFT JOIN employer_profiles ON jobs.employer_id = employer_profiles.user_id
              WHERE jobs.job_id = ?`,
