@@ -61,7 +61,7 @@ exports.getMyProfile = async (req, res) => {
             ? 'SELECT * FROM employer_profiles WHERE user_id = ?'
             : 'SELECT * FROM seeker_profiles WHERE user_id = ?';
 
-        const [profiles] = await pool.execute(query, [myId]);
+        const [profiles] = await db.execute(query, [myId]);
 
         if (profiles.length === 0) {
             return res.status(404).json({ message: 'Profile not found.' });
