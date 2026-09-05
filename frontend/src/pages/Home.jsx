@@ -62,7 +62,7 @@ const Home = () => {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-10">
           <Link 
             to="/explore" 
-            className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+            className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md"
           >
             Explore All Jobs
           </Link>
@@ -70,7 +70,7 @@ const Home = () => {
           {isLoggedIn ? (
             <Link 
               to={dashboardRoute} 
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md"
             >
               Go to Dashboard
             </Link>
@@ -115,7 +115,7 @@ const Home = () => {
 
                 <Link 
                   to={`/jobs/${job.job_id}`} 
-                  className="block text-center w-full py-3 bg-gray-700 hover:bg-blue-600 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                  className="block text-center w-full py-3 bg-gray-700 hover:bg-blue-600 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-md"
                 >
                   View Details
                 </Link>

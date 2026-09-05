@@ -128,7 +128,7 @@ const MyProfile = () => {
             <div className="flex gap-4 pt-6 border-t border-gray-700/50">
               <button 
                 type="submit"
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md"
               >
                 Save Changes
               </button>

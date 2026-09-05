@@ -106,7 +106,7 @@ const EmployerDashboard = () => {
         <h2 className="text-3xl font-bold text-white">Employer Dashboard</h2>
         <Link 
           to="/post-job" 
-          className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.3)]"
+          className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-md"
         >
           + Post New Job
         </Link>

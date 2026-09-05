@@ -128,7 +128,7 @@ const EditJob = () => {
               className="w-full bg-gray-900/50 border border-gray-600 text-white rounded-xl py-3 px-4 focus:border-emerald-500 transition-all"></textarea>
           </div>
 
-          <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+          <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl transition-all shadow-md">
             Save Changes
           </button>
         </form>

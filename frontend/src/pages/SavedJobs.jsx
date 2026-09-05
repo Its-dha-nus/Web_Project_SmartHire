@@ -91,7 +91,7 @@ const SavedJobs = () => {
 
               <Link 
                 to={`/jobs/${job.job_id}`} 
-                className="block text-center w-full py-3 bg-gray-700 hover:bg-blue-600 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                className="block text-center w-full py-3 bg-gray-700 hover:bg-blue-600 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-md"
               >
                 View Details
               </Link>

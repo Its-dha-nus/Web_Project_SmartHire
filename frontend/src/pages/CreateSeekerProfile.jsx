@@ -154,7 +154,7 @@ const CreateSeekerProfile = () => {
         <div className="pt-4">
           <button 
             type="submit" 
-            className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all duration-200"
+            className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-md transition-all duration-200"
           >
             Complete My Profile
           </button>

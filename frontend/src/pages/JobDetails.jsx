@@ -128,7 +128,7 @@ const JobDetails = () => {
                 className={`py-3 px-8 rounded-xl font-bold transition-all ${
                   hasApplied 
                     ? "bg-gray-700/50 text-gray-400 border border-gray-600 cursor-not-allowed" 
-                    : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+                    : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-md"
                 }`}
               >
                 {hasApplied ? "Already Applied" : "Apply Now"}
@@ -142,7 +142,7 @@ const JobDetails = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 // FIX: Removed w-full & mt-4. Added px-8 and flex centering.
-                className="py-3 px-8 rounded-xl font-bold transition-all bg-[#25D366] hover:bg-[#1ebd5a] text-white shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center justify-center"
+                className="py-3 px-8 rounded-xl font-bold transition-all bg-[#25D366] hover:bg-[#1ebd5a] text-white shadow-md flex items-center justify-center"
               >
                 Contact via WhatsApp
               </a>

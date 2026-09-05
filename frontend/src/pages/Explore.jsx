@@ -145,7 +145,7 @@ const Explore = () => {
                 onClick={() => setActiveFilter("All")}
                 className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all ${
                   activeFilter === "All" 
-                    ? "bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]" 
+                    ? "bg-blue-600 text-white shadow-md" 
                     : "bg-gray-700/50 text-gray-300 hover:bg-gray-600"
                 }`}
               >
@@ -156,7 +156,7 @@ const Explore = () => {
                 onClick={() => setActiveFilter("Part-Time")}
                 className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all ${
                   activeFilter === "Part-Time" 
-                    ? "bg-[#25D366] text-white shadow-[0_0_15px_rgba(37,211,102,0.4)]" 
+                    ? "bg-[#25D366] text-white shadow-md" 
                     : "bg-gray-700/50 text-gray-300 hover:bg-gray-600"
                 }`}
               >
@@ -167,7 +167,7 @@ const Explore = () => {
                 onClick={() => setActiveFilter("Internship")}
                 className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all ${
                   activeFilter === "Internship" 
-                    ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)]" 
+                    ? "bg-purple-600 text-white shadow-md" 
                     : "bg-gray-700/50 text-gray-300 hover:bg-gray-600"
                 }`}
               >
